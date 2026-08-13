@@ -93,12 +93,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setUpdateUser(BaseContext.getCurrentId());
 
         employeeMapper.insert(employee);
-
-
-
-
     }
-
 
     /**
      * 分页查询
@@ -116,4 +111,31 @@ public class EmployeeServiceImpl implements EmployeeService {
         return new PageResult(page.getTotal(),page.getResult());
     }
 
+    /**
+     * 启用禁用员工账号
+     * @param status
+     * @param id
+     */
+    @Override
+    public void startOrStop(Integer status, Long id) {
+        // update employee set status = ? where id = ?
+
+        //直接添加status与id？
+
+        //两种方法，传统方法与Bulid方法
+        /*
+        Employee employee=new Employee();
+        employee.setId(id);
+        employee.setStatus(status);
+         */
+        Employee employee = Employee.builder()
+                .status(status)
+                .id(id)
+                .build();
+
+        employeeMapper.update(employee);
+
+
+
+    }
 }

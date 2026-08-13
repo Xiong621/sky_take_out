@@ -105,4 +105,22 @@ public class EmployeeController {
         return Result.success(pageResult);
     }
 
+    /**
+     *启用禁用员工账号
+     * @param status
+     * @param id
+     * @return
+     */
+    //post请求
+    @PostMapping("/status/{status}")
+    //路径参数，把下面的status参数放到注释{}里面
+    //如果不一致的话就要在路径注解里添加对应名字；例如；@PathVariable("xxxx")
+    @ApiOperation("启用禁用员工账号")
+    public  Result  startOrStop(@PathVariable Integer status,Long id){
+        //一样的使用占位符，对应位置
+        log.info("启用禁用员工账号:{},{}",status,id);
+        employeeService.startOrStop(status,id);
+        return Result.success();
+    }
+
 }

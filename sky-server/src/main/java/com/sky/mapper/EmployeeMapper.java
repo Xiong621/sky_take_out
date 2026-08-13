@@ -40,4 +40,11 @@ public interface EmployeeMapper {
      */
     //需要动态sql语句
     Page<Employee> pageQuery(EmployeePageQueryDTO employeePageQueryDTO);
+
+    /**
+     * 根据我们主键来修改属性
+     * @param employee
+     */
+
+    void update(Employee employee);
 }
