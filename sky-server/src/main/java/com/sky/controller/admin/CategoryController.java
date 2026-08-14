@@ -92,9 +92,9 @@ public class CategoryController {
      * @param id
      * @return
      */
-    @DeleteMapping("{id}")
+    @DeleteMapping
     @ApiOperation("5根据id删除分类")
-    public  Result  delete(@PathVariable Long id) {
+    public  Result  delete(Long id) {
         log.info(MessageConstant.CATEGORY_BE_RELATED_BY_DISH);
         categoryService.deleteById(id);
         return Result.success();
@@ -107,6 +107,7 @@ public class CategoryController {
      * @return
      */
     @GetMapping("/list")
+    @ApiOperation("根据类型查询分类")
     public  Result<List<Category>> list(Integer type) {
         List<Category> list=categoryService.list(type);
         return Result.success(list);
