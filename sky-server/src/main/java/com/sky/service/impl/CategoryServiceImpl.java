@@ -42,8 +42,8 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = new Category();
         BeanUtils.copyProperties(categoryDTO, category);
         //设置修改时间，修改人
-        category.setUpdateTime(LocalDateTime.now());
-        category.setUpdateUser(BaseContext.getCurrentId());
+        //category.setUpdateTime(LocalDateTime.now());
+        //category.setUpdateUser(BaseContext.getCurrentId());
         categoryMapper.update(category);
     }
 
@@ -83,14 +83,16 @@ public class CategoryServiceImpl implements CategoryService {
         BeanUtils.copyProperties(categoryDTO, category);
         //分类状态 0标识禁用 1表示启用   默认禁用（如果直接启用无意义）
         category.setStatus(StatusConstant.DISABLE);
+
         //创建时间与创建人
-        category.setCreateTime(LocalDateTime.now());
-        category.setCreateUser(BaseContext.getCurrentId());
+        //category.setCreateTime(LocalDateTime.now());
+        //category.setCreateUser(BaseContext.getCurrentId());
         //修改时间
-        category.setUpdateTime(LocalDateTime.now());
+       // category.setUpdateTime(LocalDateTime.now());
         //前面的拦截器已经拿到id信息并存了ThreadLocal
-        category.setUpdateUser(BaseContext.getCurrentId());
+        //category.setUpdateUser(BaseContext.getCurrentId());
         //是把完整的菜系放到数据库不是categoryDTO,
+
         categoryMapper.insert(category);
     }
 

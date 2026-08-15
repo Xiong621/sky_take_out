@@ -14,9 +14,8 @@
             <if test="updateTime != null ">update_time = #{updateTime},</if>
             <if test="updateUser != null ">update_user = #{updateUser},</if>
             <if test="status != null "> status = #{status}</if>
-            where id = #{id}
         </set>
-
+        where id = #{id}
     </update>
 
     <select id="pageQuery" resultType="com.sky.entity.Employee">
