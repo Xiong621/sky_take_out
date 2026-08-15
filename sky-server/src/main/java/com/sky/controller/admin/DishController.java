@@ -40,7 +40,7 @@ public class DishController {
     public Result save(@RequestBody  DishDTO dishDTO) {
         log.info("新增菜品：{}",dishDTO);
         dishService.save(dishDTO);
-        return null;
+        return Result.success();
     }
 
     /**
@@ -70,5 +70,32 @@ public class DishController {
         dishService.deleteBatch(ids);
         return Result.success();
     }
+
+    /**
+     * 根据id查询菜品
+     * @param id
+     * @return
+     */
+    @GetMapping("/{id}")
+    @ApiOperation("")
+    public Result<DishVO> getById(@PathVariable Long id){
+        log.info("根据id查询菜品:{}",id);
+        DishVO dishVO=dishService.getByIdWhitFlavor(id);
+        return  Result.success(dishVO);
+    }
+
+    /**
+     * 修改菜品
+     * @param dishDTO
+     * @return
+     */
+    @PutMapping
+    @ApiOperation("修改菜品")
+    public  Result  update(@RequestBody  DishDTO dishDTO){
+        log.info("修改菜品：{}",dishDTO);
+        dishService.updateWhitFlavor(dishDTO);
+        return  Result.success();
+    }
+
 
 }

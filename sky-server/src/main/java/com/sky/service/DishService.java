@@ -5,6 +5,7 @@ import com.github.pagehelper.Page;
 import com.sky.dto.DishDTO;
 import com.sky.dto.DishPageQueryDTO;
 import com.sky.result.PageResult;
+import com.sky.vo.DishVO;
 
 import java.util.List;
 
@@ -28,4 +29,17 @@ public interface DishService {
      * @param ids
      */
     void deleteBatch(List<Long> ids);
+
+    /**
+     * 根据id查询菜品
+     * @param id
+     * @return
+     */
+    DishVO getByIdWhitFlavor(Long id);
+
+    /**
+     * 根据id修改菜品与口味信息
+     * @param dishDTO
+     */
+    void updateWhitFlavor(DishDTO dishDTO);
 }
