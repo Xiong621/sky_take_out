@@ -106,6 +106,7 @@
             <artifactId>jaxb-api</artifactId>
         </dependency>
 
+        <!-- minio -->
         <dependency>
             <groupId>io.minio</groupId>
             <artifactId>minio</artifactId>
