@@ -26,12 +26,6 @@ public interface DishMapper {
     Integer countByCategoryId(Long categoryId);
 
     /**
-     * 新增菜品
-     * @param dishDTO
-     */
-    void save(DishDTO dishDTO);
-
-    /**
      * 插入菜品数据
      * @param dishDTO
      */
@@ -75,4 +69,12 @@ public interface DishMapper {
     @Autofill(value = OperationType.UPDATE)
     //自动填充
     void update(Dish dish);
+
+    /**
+     * 根据分类id查询菜品
+     * @param dish
+     * @return
+     */
+    @Select("select * from dish where  category_id = #{categoryId}")
+    List<Dish> list(Dish dish);
 }

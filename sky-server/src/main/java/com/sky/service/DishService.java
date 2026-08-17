@@ -4,6 +4,7 @@ package com.sky.service;
 import com.github.pagehelper.Page;
 import com.sky.dto.DishDTO;
 import com.sky.dto.DishPageQueryDTO;
+import com.sky.entity.Dish;
 import com.sky.result.PageResult;
 import com.sky.vo.DishVO;
 
@@ -42,4 +43,11 @@ public interface DishService {
      * @param dishDTO
      */
     void updateWhitFlavor(DishDTO dishDTO);
+
+    /**
+     * 条件查询菜品和口味
+     * @param vo
+     * @return
+     */
+    List<DishVO> listWhitFlavor(Dish vo);
 }
