@@ -35,8 +35,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         //判断当前加入到购物车中的商品是否已经存在  判断用户名是否存在
         ShoppingCart shoppingCart = new ShoppingCart();
         BeanUtils.copyProperties(shoppingCartDTO, shoppingCart);
-        shoppingCart.setUserId(2L);
-        //shoppingCart.setUserId(BaseContext.getCurrentId());
+        //shoppingCart.setUserId(2L);//因为我没有用户端前端，所以不方便拿到token与id,我选择在拦截器里加入接口文档的放行代码
+        shoppingCart.setUserId(BaseContext.getCurrentId());
         List<ShoppingCart> list=shoppingCartMapper.list(shoppingCart);
         //如果已经存在，只需要将数量加一
         if(!list.isEmpty() && list != null){

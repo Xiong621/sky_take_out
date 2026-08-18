@@ -40,7 +40,28 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
         }
 
         //1、从请求头中获取令牌
+        //String token = request.getHeader(jwtProperties.getAdminTokenName());
+
+        // ==================== 开发模式（开始） ====================//没有前端用户端，则打开下面代码
+        // 判断是否是 Swagger 相关的请求路径，如果是则直接放行
+        String uri = request.getRequestURI();
+        if (uri.contains("/doc.html") || uri.contains("/webjars/") || uri.contains("/swagger-resources")
+                || uri.contains("/v2/api-docs") || uri.contains("/favicon.ico") || uri.contains("/knife4j/")) {
+            log.info("Swagger 请求放行：{}", uri);
+            // 如果是 Swagger 请求，设置一个默认用户 ID（方便调试）
+            BaseContext.setCurrentId(1L);
+            return true;
+        }
+
+        // 如果在 Swagger 调试模式下，请求头中没有 token，也设置默认用户 ID
         String token = request.getHeader(jwtProperties.getAdminTokenName());
+        if (token == null || token.isEmpty()) {
+            log.info("开发模式：请求头中没有 token，使用默认用户 ID 1");
+            BaseContext.setCurrentId(1L);
+            return true;
+        }
+        // ==================== 开发模式（结束） ====================
+
 
         //2、校验令牌
         try {
