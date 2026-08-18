@@ -34,7 +34,6 @@ public class ShopController {
         log.info("设置营业状态：{}",status == 1?"营业中":"打烊中");
         //用redis
         redisTemplate.opsForValue().set(KEY, status);
-
         return Result.success();
     }
 

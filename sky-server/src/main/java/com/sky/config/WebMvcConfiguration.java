@@ -30,6 +30,8 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
 
     @Autowired
     private JwtTokenAdminInterceptor jwtTokenAdminInterceptor;
+    @Autowired
+    private  JwtTokenAdminInterceptor jwtTokenUserInterceptor;
 
     /**
      * 注册自定义拦截器
@@ -41,7 +43,13 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
         registry.addInterceptor(jwtTokenAdminInterceptor)
                 .addPathPatterns("/admin/**")
                 .excludePathPatterns("/admin/employee/login");
+
+//        // 用户端拦截器：拦截 /user/** 路径
+//        registry.addInterceptor(jwtTokenUserInterceptor)
+//                .addPathPatterns("/user/**")
+//                .excludePathPatterns("/user/user/login", "/user/user/register"); // 登录/注册放行
     }
+
 
     /**
      * 通过knife4j生成接口文档
