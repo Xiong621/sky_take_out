@@ -11,6 +11,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,6 +35,7 @@ public class SetmealController {
     //修改套餐
     @ApiOperation("修改套餐")
     @PutMapping
+    @CacheEvict(cacheNames = "setmealCach",allEntries = true)//如果写ids是个集合，是个地址，算不出来
     public Result update(@RequestBody SetmealDTO setmealDTO) {
         log.info("修改套餐:{}", setmealDTO);
         setmealService.updateSetmeal(setmealDTO);
@@ -64,6 +67,7 @@ public class SetmealController {
      */
     @ApiOperation("新增套餐")
     @PostMapping
+    @CacheEvict(cacheNames = "setmealCach",key = "#setmealDTO")
     public  Result save(@RequestBody  SetmealDTO setmealDTO) {
         log.info("新增套餐:{}", setmealDTO);
         setmealService.save(setmealDTO);
@@ -77,6 +81,7 @@ public class SetmealController {
      */
     @PostMapping("/status/{status}")
     @ApiOperation("套餐起售、停售")
+    @CacheEvict(cacheNames = "setmealCach",allEntries = true)//如果写ids是个集合，是个地址，算不出来
     public  Result statusSetmeal(@PathVariable  Integer status,Long id) {
         log.info("套餐起售情况：{}",status==1?"起售":"停售");
         setmealService.statusSetmeal(status,id);
@@ -99,6 +104,7 @@ public class SetmealController {
     //批量删除套餐
     @DeleteMapping
     @ApiOperation("批量删除套餐")
+    @CacheEvict(cacheNames = "setmealCach",allEntries = true)//如果写ids是个集合，是个地址，算不出来
     public  Result deleteSetmeal(@RequestParam List<Long> ids) {//注意拿到的ids是集合类型的，有多个id
         log.info("批量删除套餐：{}",ids);
         setmealService.deleteSetmeal(ids);
