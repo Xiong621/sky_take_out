@@ -13,7 +13,7 @@ sky:
     bucket-name: sky-take-out
   wechat:
     appid: wx5195f40c5f955804
-    secret: f32fb9e08ca986905c8e9783d4080e59
+    secret: 123456
 spring:
   redis:
     host: localhost
