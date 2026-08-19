@@ -28,7 +28,6 @@ import java.util.zip.DataFormatException;
 
 @Service
 @Slf4j
-
 public class DishServiceImpl implements DishService {
 
     @Autowired
@@ -190,5 +189,16 @@ public class DishServiceImpl implements DishService {
     public List<DishVO> list(Long categoryId) {
         List<DishVO> list=dishMapper.getCategory(categoryId);
         return list;
+    }
+
+    /**
+     * 菜品起售、停售
+     * @param status
+     * @param id
+     */
+    public void setSataus(Integer status, Long id) {
+        Dish dish=dishMapper.getByID(id);
+        dish.setStatus(status);
+        dishMapper.update(dish);
     }
 }

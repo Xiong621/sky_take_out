@@ -7,6 +7,7 @@ import com.sky.dto.DishPageQueryDTO;
 import com.sky.entity.Dish;
 import com.sky.result.PageResult;
 import com.sky.vo.DishVO;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
 
@@ -57,4 +58,11 @@ public interface DishService {
      * @return
      */
     List<DishVO> list(Long categoryId);
+
+    /**
+     * 菜品起售、停售
+     * @param status
+     * @param id
+     */
+    void setSataus( Integer status, Long id);
 }

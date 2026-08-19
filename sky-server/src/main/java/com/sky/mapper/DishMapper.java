@@ -74,7 +74,8 @@ public interface DishMapper {
      * @param dish
      * @return
      */
-    @Select("select * from dish where  category_id = #{categoryId}")
+    //@Select("select * from dish where  category_id = #{categoryId}")
+    //传过来一个对象，需要动态查询，不要写死
     List<Dish> list(Dish dish);
 
     /**

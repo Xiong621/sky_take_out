@@ -15,9 +15,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 菜品管理
@@ -30,7 +32,8 @@ public class DishController {
 
     @Autowired
     private DishService dishService;
-
+    @Autowired
+    private RedisTemplate redisTemplate;
     /**
      * 新增菜品
      * @param dishDTO
@@ -41,6 +44,8 @@ public class DishController {
     public Result save(@RequestBody  DishDTO dishDTO) {
         log.info("新增菜品：{}",dishDTO);
         dishService.save(dishDTO);
+        String key="dish::"+dishDTO.getCategoryId();
+        cleanCach(key);
         return Result.success();
     }
 
@@ -69,6 +74,7 @@ public class DishController {
     public  Result  delete(@RequestParam List<Long> ids){
         log.info("菜品批量删除：{}",ids);
         dishService.deleteBatch(ids);
+        cleanCach("dish::*");
         return Result.success();
     }
 
@@ -95,6 +101,7 @@ public class DishController {
     public  Result  update(@RequestBody  DishDTO dishDTO){
         log.info("修改菜品：{}",dishDTO);
         dishService.updateWhitFlavor(dishDTO);
+        cleanCach("dish::*");
         return  Result.success();
     }
 
@@ -111,5 +118,23 @@ public class DishController {
         return Result.success(list);
     }
 
+    /**
+     * 菜品起售、停售
+     * @param status
+     * @param id
+     * @return
+     */
+    @PostMapping("/status/{status}")
+    public  Result setStatus(@PathVariable Integer status,@RequestParam Long id){
 
+        dishService.setSataus(status,id);
+        cleanCach("dish::"+dishService.getByIdWhitFlavor(id).getCategoryId());
+        return Result.success();
+    }
+
+    private  void cleanCach(String pram){
+        Set keys = redisTemplate.keys(pram);
+        redisTemplate.delete(keys);
+        log.info("清除缓存：{}", keys);
+    }
 }

@@ -76,4 +76,44 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
             shoppingCartMapper.insertShoppingCart(shoppingCart);
         }
     }
+
+    /**
+     * 查看购物车
+     * @return
+     */
+    public List<ShoppingCart> list() {
+        return shoppingCartMapper.getChoppingCartById(BaseContext.getCurrentId());
+    }
+
+    /**
+     * 删除购物车中一个商品
+     * @param shoppingCartDTO
+     * @return
+     */
+    public void deleteNoeShoppingCart(ShoppingCartDTO shoppingCartDTO) {
+        Long dishAndSetmealtId;
+        Long userId = BaseContext.getCurrentId();
+        //判断是套餐还是菜品，如果是菜品或者套餐，根据用户id与菜品id或者套餐id去删除对应的数据
+        if(shoppingCartDTO.getDishId() != null){
+            dishAndSetmealtId=shoppingCartDTO.getDishId();
+        }else {
+            dishAndSetmealtId=shoppingCartDTO.getSetmealId();
+        }
+
+        Long number=shoppingCartMapper.getShoppingCartById(dishAndSetmealtId,userId);
+        if(number==1) {
+            shoppingCartMapper.deleteShoppingCartById(dishAndSetmealtId,userId);
+        }else {
+            number--;
+            shoppingCartMapper.update(dishAndSetmealtId,userId,number);
+        }
+    }
+
+    /**
+     * 清空购物车
+     * @param
+     */
+    public void deleteShoppingCart() {
+        shoppingCartMapper.deleteShoppingCart(BaseContext.getCurrentId());
+    }
 }

@@ -45,6 +45,6 @@ sky:
     user-secret-key: itcast
     user-token-name: authentication
     user-ttl: 7200000
-  dev:
-    default-user-id: 1
-    skip-user-auth: false
+  wechat:
+    appid: ${sky.wechat.appid}
+    secret: ${sky.wechat.secret}}
