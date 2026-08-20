@@ -72,7 +72,7 @@ public class DishController {
     @ApiOperation("菜品批量删除")
     //@RequestParam 解析ids字符串，拿到挨个数据放到集合当中
     public  Result  delete(@RequestParam List<Long> ids){
-        log.info("菜品批量删除：{}",ids);
+        log.info(MessageConstant.DISH_BE_RELATED_BY_SETMEAL);
         dishService.deleteBatch(ids);
         cleanCach("dish::*");
         return Result.success();

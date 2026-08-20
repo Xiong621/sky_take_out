@@ -35,7 +35,7 @@ public class SetmealController {
     //修改套餐
     @ApiOperation("修改套餐")
     @PutMapping
-    @CacheEvict(cacheNames = "setmealCach",allEntries = true)//如果写ids是个集合，是个地址，算不出来
+    @CacheEvict(cacheNames = "setmealCach",allEntries = true)
     public Result update(@RequestBody SetmealDTO setmealDTO) {
         log.info("修改套餐:{}", setmealDTO);
         setmealService.updateSetmeal(setmealDTO);
@@ -81,7 +81,7 @@ public class SetmealController {
      */
     @PostMapping("/status/{status}")
     @ApiOperation("套餐起售、停售")
-    @CacheEvict(cacheNames = "setmealCach",allEntries = true)//如果写ids是个集合，是个地址，算不出来
+    @CacheEvict(cacheNames = "setmealCach",allEntries = true)
     public  Result statusSetmeal(@PathVariable  Integer status,Long id) {
         log.info("套餐起售情况：{}",status==1?"起售":"停售");
         setmealService.statusSetmeal(status,id);
