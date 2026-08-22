@@ -1,14 +1,17 @@
 package com.sky.controller.user;
 
+import com.sky.dto.OrdersPageQueryDTO;
 import com.sky.dto.OrdersPaymentDTO;
 import com.sky.dto.OrdersSubmitDTO;
 import com.sky.entity.OrderDetail;
 import com.sky.entity.Orders;
+import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.OrderDetailService;
 import com.sky.service.OrderService;
 import com.sky.vo.OrderPaymentVO;
 import com.sky.vo.OrderSubmitVO;
+import com.sky.vo.OrderVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -28,12 +31,12 @@ public class OrderController {
     private OrderDetailService orderDetailService;
 
     /**
-     * 催单
+     * 客户催单
      * @param id
      * @return
      */
     @GetMapping("reminder/{id}")
-    @ApiOperation("催单")
+    @ApiOperation("客户催单")
     public Result reminder(@PathVariable Long id){
         log.info("催单id为:{}",id);
         orderService.reminder(id);
@@ -52,6 +55,7 @@ public class OrderController {
         OrderSubmitVO ordersSubmit=orderService.submitOrder(ordersSubmitDTO);
         return Result.success(ordersSubmit);
     }
+
     /**
      * 订单支付
      *
@@ -74,20 +78,48 @@ public class OrderController {
      */
     @GetMapping("/orderDetail/{id}")
     @ApiOperation("查询订单详情")
-    private  Result<Orders>  orderDetail(@PathVariable Long id){
+    public  Result<OrderVO>  orderDetail(@PathVariable Long id){
         log.info("查询订单详情,id为:{}",id);
-        Orders orders=orderService.getByIdOrder(id);
+        OrderVO orders=orderService.details(id);
         return Result.success(orders);
     }
 
-
+    /**
+     * 再来一单
+     * @param id
+     * @return
+     */
     @PostMapping("/repetition/{id}")
     @ApiOperation("再来一单")
-    private  Result  repetition(@PathVariable Long id){
+    public  Result  repetition(@PathVariable Long id){
         log.info("再来一单,id:{}",id);
         orderService.repetition(id);
         return Result.success();
     }
 
+    /**
+     * 历史订单查询
+     * @param ordersPageQueryDTO
+     * @return
+     */
+    @GetMapping("/historyOrders")
+    @ApiOperation("历史订单查询")
+    public  Result<PageResult>  historyOrders(OrdersPageQueryDTO ordersPageQueryDTO){
+        log.info("历史订单查询:{}",ordersPageQueryDTO);
+        PageResult pageResult = orderService.historyOrders(ordersPageQueryDTO);
+        return Result.success(pageResult);
+    }
 
+    /**
+     * 取消订单
+     * @param id
+     * @return
+     */
+    @PutMapping("/cancel/{id}")
+    @ApiOperation("取消订单")
+    public  Result  cancel(@PathVariable Long id){
+        log.info("取消订单,id:{}",id);
+        orderService.cancel(id);
+        return Result.success();
+    }
 }

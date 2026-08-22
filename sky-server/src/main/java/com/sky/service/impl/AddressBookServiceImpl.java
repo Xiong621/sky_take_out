@@ -27,32 +27,18 @@ public class AddressBookServiceImpl implements AddressBookService {
      * 查询当前登录用户的所有地址信息
      * @return
      */
-    public List<AddressBook> list() {
-        //根据用户id拿到地址
-        List<AddressBook> list=addressBookMapper.list(BaseContext.getCurrentId());
+    public List<AddressBook> list(AddressBook addressBook) {
+        List<AddressBook> list=addressBookMapper.list(addressBook);
         return list;
     }
 
-    /**
-     * 查询默认地址
-     */
-    public AddressBook getAddressDefault() {
-        List<AddressBook> userAddressAll= addressBookMapper.list(BaseContext.getCurrentId());
-        for (AddressBook addressBook : userAddressAll) {
-            if(addressBook.getIsDefault()==1){
-                return addressBook;
-            }
-        }
-        return null;
-    }
 
     /**
      * 根据id修改地址
      * @param addressBook
      */
     public void updateAddress(AddressBook addressBook) {
-        AddressBook address = addressBookMapper.getByIdAddress(addressBook.getId());
-        addressBookMapper.updateAddress(address);
+        addressBookMapper.update(addressBook);
     }
     /**
      * 根据id删除地址
@@ -78,14 +64,23 @@ public class AddressBookServiceImpl implements AddressBookService {
      * @param addressBook
      */
     public void setDefaultAddress(AddressBook addressBook) {
-        List<AddressBook> list=addressBookMapper.list(BaseContext.getCurrentId());
-        for (AddressBook addressBookIn : list) {
-                //需要把默认的改为不默认，这个是我漏补的
-            addressBookIn.setIsDefault(0);
-            addressBookMapper.updateAddress(addressBookIn);
-        }
-        AddressBook Address = addressBookMapper.getByIdAddress(addressBook.getId());
-        Address.setIsDefault(1);
-        addressBookMapper.updateAddress(Address);
+//        List<AddressBook> list=addressBookMapper.list(BaseContext.getCurrentId());
+//        for (AddressBook addressBookIn : list) {
+//                //需要把默认的改为不默认，这个是我漏补的
+//            addressBookIn.setIsDefault(0);
+//            addressBookMapper.updateAddress(addressBookIn);
+//        }
+//        AddressBook Address = addressBookMapper.getByIdAddress(addressBook.getId());
+//        Address.setIsDefault(1);
+//        addressBookMapper.updateAddress(Address);
+
+        //1、将当前用户的所有地址修改为非默认地址 update address_book set is_default = ? where user_id = ?
+        addressBook.setIsDefault(0);
+        addressBook.setUserId(BaseContext.getCurrentId());
+        addressBookMapper.updateIsDefaultByUserId(addressBook);
+
+        //2、将当前地址改为默认地址 update address_book set is_default = ? where id = ?
+        addressBook.setIsDefault(1);
+        addressBookMapper.update(addressBook);
     }
 }

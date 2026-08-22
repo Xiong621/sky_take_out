@@ -15,12 +15,8 @@ public interface AddressBookService {
      * 查询当前登录用户的所有地址信息
      * @return
      */
-    List<AddressBook> list();
+    List<AddressBook> list(AddressBook addressBook);
 
-    /**
-     * 查询默认地址
-     */
-    AddressBook getAddressDefault();
 
     /**
      * 根据id修改地址

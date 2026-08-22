@@ -15,13 +15,6 @@ import java.util.List;
 
 @Mapper
 public interface OrderMapper {
-
-    /**
-     * 催单
-     */
-    @Select("")
-    void reminder();
-
     /**
      * 订单搜索
      * @param ordersPageQueryDTO
@@ -33,15 +26,15 @@ public interface OrderMapper {
      *各个状态的订单数量统计
      * @return
      */
-    @Select("select status from orders")
-    List<Integer> getOrdersStatisticsStatus();
-
+    @Select("select count(*) from  orders where  status=#{status}")
+    Integer getOrdersStatusNumber(Integer status);
 //    /**
 //     * 完成订单
 //     * @param id
 //     * @return
 //     */
 //    @Select("select * from orders where id =#{id}")
+
 //    Orders queryCompleteOrder(Long id);
 
     /**
@@ -80,4 +73,19 @@ public interface OrderMapper {
     @Select("select * from orders where id = #{orderId}")
     Orders getByIdOrder(Long orderId);
 
+    /**
+     * 查询该处理的超时订单
+     * @param status
+     * @param orderTime
+     * @return
+     */
+    @Select("select * from  orders  where  status=#{status} and order_time < #{orderTime}")
+    List<Orders> getByStatusAndOrderTimeLT(Integer status, LocalDateTime orderTime);
+
+    /**
+     * 用户端历史订单
+     * @paramordersPageQueryDTO
+     * @return
+     */
+    Page<Orders> historyOrders(OrdersPageQueryDTO ordersPageQueryDTO);
 }

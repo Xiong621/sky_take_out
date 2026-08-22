@@ -43,12 +43,22 @@
     <select id="pageQueryOrder" resultType="com.sky.entity.Orders">
         select * from orders
         <where>
-            <if test="beginTime != null">begin_time = #{beginTime}</if>
-            <if test="endTime != null">begin_time = #{endTime}</if>
-            <if test="number != null">number = #{number}</if>
-            <if test="phone != null">phone = #{phone}</if>
-            <if test="status != null">status = #{status}</if>
+            <if test="beginTime != null"> and begin_time = #{beginTime}</if>
+            <if test="endTime != null">and begin_time = #{endTime}</if>
+            <if test="number != null">and number = #{number}</if>
+            <if test="phone != null">and phone = #{phone}</if>
+            <if test="status != null">and status = #{status}</if>
         </where>
         order by order_time desc
+    </select>
+    <select id="historyOrders" resultType="com.sky.entity.Orders">
+        SELECT * FROM orders
+        <where>
+            user_id = #{userId}
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+        </where>
+        ORDER BY order_time DESC
     </select>
 </mapper>

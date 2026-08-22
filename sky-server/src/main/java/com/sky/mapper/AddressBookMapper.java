@@ -4,6 +4,7 @@ import com.sky.entity.AddressBook;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -17,11 +18,10 @@ public interface AddressBookMapper {
 
     /**
      * 查询当前登录用户的所有地址信息
-     * @param userId
+     * @param addressBook
      * @return
      */
-    @Select("select * from address_book where user_id=#{userId}")
-    List<AddressBook> list(Long userId);
+    List<AddressBook> list(AddressBook addressBook);
 
     /**
      * 查询得到默认地址
@@ -35,7 +35,9 @@ public interface AddressBookMapper {
      * 根据id修改地址
      * @param addressBook
      */
-    void updateAddress(AddressBook addressBook);
+
+    @Update("update address_book set is_default = #{isDefault} where user_id = #{userId}")
+    void updateIsDefaultByUserId(AddressBook addressBook);
 
     /**
      * 通过id得到地址
@@ -58,4 +60,10 @@ public interface AddressBookMapper {
      */
     @Select("select * from address_book where id=#{id}")
     AddressBook queryAddress(Long id);
+
+    /**
+     * 根据id修改
+     * @param addressBook
+     */
+    void update(AddressBook addressBook);
 }
